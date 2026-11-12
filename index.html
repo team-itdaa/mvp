@@ -1,13 +1,28 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" data-type="software" data-radius="round" data-buttons="solid">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="page-type" content="software" />
+    <meta name="site-kind" content="software" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta property="og:title" content="Snapin · 나의 다음 장소" />
+    <meta property="og:description" content="장소를 찾고, 폴더에 모으고, 익숙한 지도로 만나요." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://team-itdaa.github.io/images/places/cafe.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="canonical" href="https://team-itdaa.github.io/" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" href="/fonts/SUIT-Variable.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/assets/motion/motion.css" />
     <meta name="description" content="스내핀 Snapin - 나만의 장소를 발견하고, 모으고, 링크 하나로 공유하세요." />
     <title>스내핀 Snapin · 나의 다음 장소</title>
+    <script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
   </head>
   <body>
+    <!-- software · pastel-lavender / Chivo + SUIT · operational app shell; see .taste-skill/design-plan.md -->
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script type="module" src="/assets/motion/motion.js"></script>
   </body>
 </html>

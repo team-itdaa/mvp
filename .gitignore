@@ -25,3 +25,8 @@ yarn-error.log*
 
 # Vercel
 .vercel/
+
+# Local design inspection artifacts (plans and reports remain reviewable)
+.taste-skill/*
+!.taste-skill/design-plan.md
+!.taste-skill/verification.md
