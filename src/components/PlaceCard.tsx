@@ -14,14 +14,14 @@ export default function PlaceCard({ place, saved, onOpen }: Props) {
       {saved && <span className="saved-place-badge"><Icon name="bookmark" size={15} filled />저장됨</span>}
     </div>
     <div className="place-content">
-      <div className="place-meta"><span>{place.neighborhood}</span><span><Icon name="star" size={13} filled /> {community.rating}<span className="rating-count"> ({community.reviewCount})</span></span></div>
+      <div className="place-meta"><span>{place.neighborhood}</span><span><Icon name="star" size={13} filled /> {community.reviewCount ? <>{community.rating}<span className="rating-count"> ({community.reviewCount})</span></> : '평점 미제공'}</span></div>
       <h3 className="place-title">{place.name}<Icon name="chevron" size={16} /></h3>
       <p>{place.description.split('.')[0]}.</p>
-      <div className="card-community-preview">
+      {featured && (<div className="card-community-preview">
         <span className="community-preview-label">공감이 많은 이야기</span>
         <TextPreview text={`“${featured.text}”`} hasMore />
         <span className="community-preview-footer"><span>{featured.author}</span><span><Icon name="heart" size={14} /> {featured.likes}</span></span>
-      </div>
+      </div>)}
       <div className="place-bottom"><span className="place-tag">{place.tags[0]}</span><span><Icon name="pin" size={12} /> {place.distance}</span></div>
     </div>
   </a>
