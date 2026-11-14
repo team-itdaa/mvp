@@ -156,8 +156,46 @@ places.push(
   { id: 'zesty-saloon-seongsu', name: '제스티살룬 성수', category: '음식점', neighborhood: '서울 성수동', address: '서울 성동구 서울숲4길 13 1층', description: '서울숲역 5번 출구 근처 주택가 2층의 햄버거 가게예요. 빨간 벽돌 건물과 빨간 차양이 눈에 띄고, 별도 주차장은 없어요.', image: 'zesty-saloon-seongsu.jpg', tags: ['햄버거', '점심', '저녁'], rating: '평점 미제공', distance: '성수동', hours: '방문 전 공식 안내 확인', sourceUrl: 'https://korean.visitkorea.or.kr/detail/ms_detail.do?cotid=2f0952fc-d7a7-441e-9582-fc716bad37d8', imageSource: 'https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=26cf8e45-318e-4521-8ada-8b9f8baf4420', maps: { kakao: '1965582130' } },
 )
 // 기존 장소 중 카카오맵 장소 ID를 확인한 곳. 같은 주소에 다른 업장이 있는 대림창고는 갤러리카페로 연결한다.
-const kakaoPlaceIds: Record<string, string> = { paper: '1128989913', 'onion-seongsu': '145791269', 'blue-bottle-seongsu': '1492599844', 'seoul-forest': '11331488' }
+// 구글 지도 장소 ID(ftid). 구글 지도에서 상호+주소로 검색해 장소 상세 주소(`!1s<ID>`)에서 읽었다.
+const googlePlaceIds: Record<string, string> = {
+  'seongsu-jokbal': '0x357ca4965a69cab1:0x71d043efd2bd3778',
+  paper: '0x357ca493e338f38b:0x7a08aa8d3dde5f05',
+  onuel: '0x357c99adc67167cb:0xff446d999d6e8861',
+  'joyanggwan-gangnam': '0x357ca15af05a7d25:0xf655ac9e320f6a37',
+  'haedamchae-gangnam': '0x357ca156fae3b56b:0x8e26b80c04bd904d',
+  'gangnam-jinhaejang': '0x357ca1582a882a4b:0x6fa9110f4c3e1afd',
+  forest: '0x357c98d87a935275:0xbc7082155d3a4bb4',
+  table: '0x357ca38dd1031533:0x5a8ddb2c78608f9f',
+  sunset: '0x357c9930cc655457:0xe69b8f74b2e69e1a',
+  'seoul-forest': '0x357ca37d51f4f62b:0xdd9b9865be0f469a',
+  'onion-seongsu': '0x357ca495a472bd1d:0xe396cb285c78676f',
+  'blue-bottle-seongsu': '0x357ca59633e3ddf7:0xff05a699d61b762b',
+  'gangnam-mokjang': '0x357ca400839f02f9:0x8413b96c746786c5',
+  'dongdal-gangnam': '0x357ca15b685897bd:0xfeaebfb1417490c7',
+  'zesty-saloon-seongsu': '0x357ca5d0fce37341:0xf94b7ce7472383e0',
+}
+places.forEach(place => { if (googlePlaceIds[place.id]) place.maps = { ...place.maps, google: googlePlaceIds[place.id] } })
+const kakaoPlaceIds: Record<string, string> = { onuel: '445165609', forest: '657926243', table: '185267351', sunset: '256064588', paper: '1128989913', 'onion-seongsu': '145791269', 'blue-bottle-seongsu': '1492599844', 'seoul-forest': '11331488' }
 places.forEach(place => { if (kakaoPlaceIds[place.id]) place.maps = { ...place.maps, kakao: kakaoPlaceIds[place.id] } })
+// 네이버 지도 장소 ID. 네이버 지도 장소 상세 주소(`/place/<ID>`)에서 읽었다. 장소를 확인한 것만 넣는다.
+const naverPlaceIds: Record<string, string> = {
+  onuel: '1485444554',
+  forest: '1088501208',
+  table: '1540304888',
+  'seoul-forest': '11636039',
+  paper: '37910590',
+  sunset: '1956949040',
+  'onion-seongsu': '38561949',
+  'joyanggwan-gangnam': '11702941',
+  'haedamchae-gangnam': '1482792279',
+  'gangnam-mokjang': '12033187',
+  'dongdal-gangnam': '1906789228',
+  'gangnam-jinhaejang': '993043508',
+  'seongsu-jokbal': '19862383',
+  'zesty-saloon-seongsu': '1172915589',
+  'blue-bottle-seongsu': '1725895520',
+}
+places.forEach(place => { if (naverPlaceIds[place.id]) place.maps = { ...place.maps, naver: naverPlaceIds[place.id] } })
 export const groupDinnerCandidateIds = ['joyanggwan-gangnam', 'haedamchae-gangnam', 'gangnam-mokjang', 'dongdal-gangnam', 'gangnam-jinhaejang']
 export const groupDinnerDemoPrompt = '강남역 도보 15분 이내, 주차 가능한 단체 회식 장소'
 export function isGroupDinnerQuery(query: string) { return /회식|단체/.test(query) }
