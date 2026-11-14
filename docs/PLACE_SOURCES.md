@@ -46,6 +46,8 @@
 | 성수족발 (`seongsu-jokbal`) | 서울 성동구 아차산로7길 7 1층 | [소개](https://korean.visitkorea.or.kr/detail/ms_detail.do?cotid=bc0fe900-cf60-4ff5-8acc-418025c625ea): 서울 3대 족발로 불릴 만큼 유명, 매장이 좁아 포장 권장 | [원본](https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=6e2f1dc7-60ad-4418-b783-9885cf59ec63) → `seongsu-jokbal.jpg` | 8416853 | 네이버블로거 솔솔(jhaansol) |
 | 제스티살룬 성수 (`zesty-saloon-seongsu`) | 서울 성동구 서울숲4길 13 1층 | [소개](https://korean.visitkorea.or.kr/detail/ms_detail.do?cotid=2f0952fc-d7a7-441e-9582-fc716bad37d8): 서울숲역 5번 출구 근처 주택가 2층 햄버거집, 별도 주차장 없음 | [원본](https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=26cf8e45-318e-4521-8ada-8b9f8baf4420) → `zesty-saloon-seongsu.jpg` | 1965582130 | 없음 |
 
+네이버 place ID와 구글 ftid(`Place.maps.naver`, `Place.maps.google`)는 각 지도에서 장소 상세 주소를 복사해 입력했고, 2026-11-14에 PC 브라우저로 상세 페이지를 열어 페이지 제목이 장소명과 일치하는 것을 15곳 모두 확인했다(대림창고의 네이버 등록명은 "성수동대림창고갤러리").
+
 기존 장소 중 카카오 장소 ID를 확인한 곳: 대림창고 1128989913(같은 주소의 "대림창고 다이닝&바"는 별도 업장이라 갤러리카페를 선택), 어니언 성수 145791269, 블루보틀 성수 카페 1492599844, 서울숲 11331488. 전화번호가 이 문서의 출처(VisitSeoul, 한국관광공사 등)와 일치함을 확인했다.
 
 강남역 회식 질의("회식"·"단체" 포함)는 조양관·해담채·강남목장·동달식당·강남진해장 5곳에 연결한다. 도보 시간은 계산하지 않고 "강남역 인근"으로 표시한다. 주차·룸·단체석은 위 한국관광공사 소개 기준이며 실제 현재 운영 여부를 보장하지 않는다. 검색 결과에도 이 안내를 표시한다.

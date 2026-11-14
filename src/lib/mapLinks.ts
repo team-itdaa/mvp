@@ -31,10 +31,24 @@ export function webMapUrl(app: MapApp, query: string) {
   return `https://www.google.com/maps/search/?api=1&query=${text}`
 }
 
-/** 장소의 웹 지도 주소. 지도 앱별 장소 ID가 있으면 검색 결과가 아닌 장소 상세로 바로 간다. */
+/** 구글 지도 장소 ID(ftid, `0x…:0x…`)의 뒷부분을 십진수 CID로 바꾼다. 형식이 맞지 않으면 null. */
+export function googleCidFromFtid(ftid: string) {
+  const match = ftid.match(/^0x[0-9a-f]+:(0x[0-9a-f]+)$/i)
+  return match ? BigInt(match[1]).toString() : null
+}
+
+/**
+ * 장소의 웹 지도 주소. 지도 앱별 장소 ID가 있으면 검색 결과가 아닌 장소 상세로 바로 간다.
+ * 카카오: place.map.kakao.com/{ID}, 네이버: map.naver.com/p/entry/place/{ID}, 구글: maps.google.com/?cid={CID}.
+ */
 export function placeWebUrl(app: MapApp, place: Place) {
   const id = place.maps?.[app]
-  if (app === 'kakao' && id) return `https://place.map.kakao.com/${id}`
+  if (id) {
+    if (app === 'kakao') return `https://place.map.kakao.com/${id}`
+    if (app === 'naver') return `https://map.naver.com/p/entry/place/${id}`
+    const cid = googleCidFromFtid(id)
+    if (cid) return `https://maps.google.com/?cid=${cid}`
+  }
   return webMapUrl(app, placeSearchText(place, app))
 }
 
@@ -86,7 +100,8 @@ function openIosScheme(schemeUrl: string, webUrl: string) {
 export function openInMapApp(app: MapApp, place: Place) {
   const webUrl = placeWebUrl(app, place)
   const platform = detectPlatform()
-  if (platform === 'desktop' || app === 'google') { window.location.assign(webUrl); return }
+  // 네이버 앱 스킴은 장소 ID가 아니라 좌표가 필요해서, 장소 ID가 있으면 앱 호출 대신 웹 주소로 연다.
+  if (platform === 'desktop' || app === 'google' || (app === 'naver' && place.maps?.naver)) { window.location.assign(webUrl); return }
   if (platform === 'android') { window.location.assign(androidIntentUrl(app, place, webUrl)); return }
   openIosScheme(iosSchemeUrl(app, place), webUrl)
 }
