@@ -1,5 +1,5 @@
 import { useEffect, useState, useSyncExternalStore } from 'react'
-import { collections as initialCollections, initialMemos, mapApps, mockShareUrl, parseRoute, places, updatePlaceFolders, communityPosts } from './mocks/data'
+import { collections as initialCollections, initialMemos, initialPublicMemos, mapApps, mockShareUrl, parseRoute, places, updatePlaceFolders, communityPosts } from './mocks/data'
 import type { Collection, MapApp, Page, Place, CommunityPost } from './mocks/data'
 import Icon from './components/Icon'
 import ProfileDialog from './components/ProfileDialog'
@@ -15,6 +15,8 @@ import LinkPage from './pages/LinkPage'
 import ListsPage from './pages/ListsPage'
 import SharePage from './pages/SharePage'
 import MapSettingsPage from './pages/MapSettingsPage'
+import ReceiverPage from './pages/ReceiverPage'
+import { clearDefaultMapApp, placeWebUrl, readDefaultMapApp, saveDefaultMapApp } from './lib/mapLinks'
 
 const navigation: { page: Page; label: string; icon: string; group: string }[] = [
   { page: 'explore', label: '장소 둘러보기', icon: 'compass', group: '둘러보기' },
@@ -29,7 +31,7 @@ const getHash = () => window.location.hash
 const getServerHash = () => ''
 const sharedIdsFromHash = (hash: string, folders: Collection[]) => {
   const route = parseRoute(hash)
-  if (route.page !== 'share' || !route.placeId) return []
+  if ((route.page !== 'share' && route.page !== 'go') || !route.placeId) return []
   const folder = folders.find(item => `list-${item.id}` === route.placeId)
   return folder ? folder.placeIds : places.some(place => place.id === route.placeId) ? [route.placeId] : []
 }
@@ -40,7 +42,7 @@ export default function App() {
   const [collections, setCollections] = useState<Collection[]>(initialCollections)
   const [activeListId, setActiveListId] = useState(initialCollections[0].id)
   const [memos, setMemos] = useState(initialMemos)
-  const [publicMemos, setPublicMemos] = useState<Record<string, boolean>>({})
+  const [publicMemos, setPublicMemos] = useState<Record<string, boolean>>(initialPublicMemos)
   const [profile, setProfile] = useState<Profile>({ nickname: '배고픈귤', email: 'gyul@snapin.kr' })
   const nickname = profile.nickname
   const [viewedIds, setViewedIds] = useState(['onuel', 'seoul-forest', 'table'])
@@ -50,7 +52,13 @@ export default function App() {
     const now = Date.now()
     return [...new Set([...sharedIdsFromHash(getHash(), initialCollections), 'sunset', 'paper'])].map((placeId, index) => ({ placeId, viewedAt: new Date(now - index * 86400000).toISOString() }))
   })
-  const [mapApp, setMapApp] = useState<MapApp>('naver')
+  // 이 브라우저에 저장된 기본 지도. 없으면 링크를 열 때마다 지도 앱 선택 화면을 보여 준다.
+  const [defaultMap, setDefaultMap] = useState<MapApp | null>(readDefaultMapApp)
+  const [mapApp, setMapApp] = useState<MapApp>(() => readDefaultMapApp() ?? 'naver')
+  const updateDefaultMap = (app: MapApp | null) => {
+    if (app) { saveDefaultMapApp(app); setMapApp(app) } else clearDefaultMapApp()
+    setDefaultMap(app)
+  }
   const [query, setQuery] = useState('')
   const [headerQuery, setHeaderQuery] = useState(() => parseRoute(getHash()).query || '')
   const [recent, setRecent] = useState(['onuel', 'seoul-forest'])
@@ -67,6 +75,8 @@ export default function App() {
     window.addEventListener('hashchange', recordSharedVisit)
     return () => window.removeEventListener('hashchange', recordSharedVisit)
   }, [collections])
+  // 통합 링크를 받은 사람은 앱 메뉴 없이 수신자 화면만 본다.
+  if (route.page === 'go') return <ReceiverPage targetId={route.placeId} collections={collections} defaultMap={defaultMap} onDefaultMap={updateDefaultMap} memos={memos} publicMemos={publicMemos} />
   const updateMemo = (id: string, memo: string) => { setMemos(previous => ({ ...previous, [id]: memo })); setMemoDates(previous => ({ ...previous, [id]: new Date().toISOString() })) }
   const updateVisibility = (id: string, visible: boolean) => setPublicMemos(previous => ({ ...previous, [id]: visible }))
   const ownPosts: CommunityPost[] = Object.entries(memos).flatMap(([placeId, text]) => publicMemos[placeId] && text.trim() ? [{ id: `memo-${placeId}`, placeId, author: nickname, title: `${places.find(place => place.id === placeId)?.name || '장소'}에서 남긴 메모`, body: [text], publishedAt: memoDates[placeId] || '2026-11-12T09:00:00+09:00', likes: 0, rating: 0, tags: ['방문 메모'] }] : [])
@@ -108,12 +118,12 @@ export default function App() {
           {route.page === 'explore' && <ExplorePage query={query} onQuery={setQuery} savedIds={[...new Set(collections.flatMap(folder => folder.placeIds))]} onOpen={openPlace} collections={collections} onCollection={openCollection} />}
           {route.page === 'search' && <SearchPage key={hash} query={route.query || ''} posts={allPosts} savedIds={[...new Set(collections.flatMap(folder => folder.placeIds))]} onOpenPlace={openPlace} onOpenPost={openPost} />}
           {route.page === 'post' && <PostPage postId={route.postId} posts={allPosts} onOpenPlace={openPlace} />}
-          {route.page === 'link' && <LinkPage recent={recent} onGenerate={place => { setRecent(prev => [place.id, ...prev.filter(id => id !== place.id)]); setNotice('통합 링크가 준비됐어요.') }} onShare={sharePlace} onCopy={copyLink} />}
+          {route.page === 'link' && <LinkPage recent={recent} onGenerate={place => { setRecent(prev => [place.id, ...prev.filter(id => id !== place.id)]); setNotice('통합 링크가 준비됐어요.') }} onShare={sharePlace} onPreview={place => navigate('go', place.id)} onCopy={copyLink} />}
           {route.page === 'lists' && <ListsPage collections={collections} activeId={activeList.id} onSelect={setActiveListId} onCreate={createCollection} onRemove={(id, listId) => { setCollections(prev => prev.map(list => list.id === listId ? { ...list, placeIds: list.placeIds.filter(p => p !== id) } : list)); setNotice('리스트에서 장소를 뺐어요.') }} memos={memos} publicMemos={publicMemos} onMemo={updateMemo} onVisibility={updateVisibility} onOpen={openPlace} onCopy={copyLink} onShare={list => navigate('share', `list-${list.id}`)} onExplore={() => navigate('explore')} />}
           {route.page === 'share' && !route.placeId && <HistoryPage entries={history} onOpen={openPlace} />}
-          {(route.page === 'place' || (route.page === 'share' && !!route.placeId)) && <SharePage key={hash} place={sharedPlace} collection={shareCollection} isShared={route.page === 'share'} collections={collections} memos={memos} publicMemos={publicMemos} onMemo={updateMemo} onVisibility={updateVisibility} mapApp={mapApp} onMap={setMapApp} onSave={savePlace} onCopy={place => copyLink(place, shareCollection)} onOpenMap={() => { if (!sharedPlace) return; const query = encodeURIComponent(`${sharedPlace.name} ${sharedPlace.address}`); const url = mapApp === 'naver' ? `https://map.naver.com/p/search/${query}` : mapApp === 'kakao' ? `https://map.kakao.com/link/search/${query}` : `https://www.google.com/maps/search/?api=1&query=${query}`; window.open(url, '_blank', 'noopener,noreferrer') }} onBack={() => navigate(route.page === 'place' ? 'explore' : 'link')} />}
+          {(route.page === 'place' || (route.page === 'share' && !!route.placeId)) && <SharePage key={hash} place={sharedPlace} collection={shareCollection} isShared={route.page === 'share'} collections={collections} memos={memos} publicMemos={publicMemos} onMemo={updateMemo} onVisibility={updateVisibility} mapApp={mapApp} onMap={setMapApp} onSave={savePlace} onCopy={place => copyLink(place, shareCollection)} onOpenMap={target => window.open(placeWebUrl(mapApp, target), '_blank', 'noopener,noreferrer')} onBack={() => navigate(route.page === 'place' ? 'explore' : 'link')} />}
           {route.page === 'mypage' && <div className="mypage-page"><div className="page-heading"><div><h1>내 프로필</h1><p>내가 모은 장소와 이야기를 확인해요.</p></div><button className="btn button secondary" onClick={() => setProfileOpen(true)}>프로필 보기</button></div><section className="panel profile-panel"><ProfileAvatar nickname={nickname} image={profile.image} className="profile-avatar-large" /><h2>{nickname}</h2><p>{profile.email}</p><p>작성한 글 {ownPosts.length}개 · 둘러본 장소 {viewedIds.length}곳</p>{profile.socialUrl && <a className="profile-social-link" href={profile.socialUrl} target="_blank" rel="noreferrer">{profile.socialUrl}</a>}</section></div>}
-          {route.page === 'settings' && <MapSettingsPage mapApp={mapApp} onMap={setMapApp} onConfirm={() => setNotice(`${mapApps.find(m => m.id === mapApp)!.name}를 기본 지도로 선택했어요.`)} />}
+          {route.page === 'settings' && <MapSettingsPage mapApp={mapApp} defaultMap={defaultMap} onMap={setMapApp} onConfirm={() => { updateDefaultMap(mapApp); setNotice(`${mapApps.find(m => m.id === mapApp)!.name}을(를) 기본 지도로 선택했어요.`) }} onReset={() => { updateDefaultMap(null); setNotice('기본 지도를 해제했어요. 링크를 열 때 지도 앱을 선택해요.') }} />}
         </main><footer className="workspace-footer"><span className="footer-brand">snapin</span><span>© Snapin 2026</span></footer>
       </div>
       {profileOpen && <ProfileDialog profile={profile} postCount={ownPosts.length} visitedCount={viewedIds.length} onSave={value => { setProfile(value); setNotice('프로필을 변경했어요.') }} onClose={() => setProfileOpen(false)} onSettings={() => { setProfileOpen(false); navigate('settings') }} />}

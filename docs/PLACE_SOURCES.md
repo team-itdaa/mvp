@@ -30,6 +30,26 @@
   - [한국관광공사 장소 정보](https://korean.visitkorea.or.kr/detail/ms_detail.do?cotid=150b5df5-3b82-4830-b755-c648dc714e9e)
   - [성동구 성수카페 안내](https://www.sd.go.kr/tour/contents.do?key=4208)의 블루보틀 사진 → [원본](https://kr.bluebottlecoffee.com/cdn/shop/articles/BBCK_SS_main_1600x1600_1e4b79e5-dfab-43d0-a335-49ac4f234cfe.jpg?width=1200), `public/images/places/blue-bottle-seongsu.png`
 
+### 시나리오용 추가 장소 (2026-11-14)
+
+[PERSONA_SCENARIO.md](PERSONA_SCENARIO.md)의 강남역 회식·성수 맛집 시나리오에 쓰는 서울 실제 장소다. 장소 소개와 대표 사진은 한국관광공사 '대한민국 구석구석' 안내 페이지를 따르고, 주소·카카오 장소 ID(`Place.maps.kakao`)는 카카오맵 모바일 검색 결과의 이름·주소·전화번호와 대조했다. 사진은 1200px 이하 JPEG로 줄여 `public/images/places/`에 저장했다. 영업시간은 확인하지 않아 "방문 전 공식 안내 확인"으로 둔다. 가상 후기는 만들지 않았다.
+
+사진의 저작권은 원 권리자에게 있다. 한국관광공사 안내 페이지의 대표 사진 중 일부는 **원작자(블로거) 표기가 이미지에 들어 있다**(아래 표). 공개 배포 전에 이용 허락과 표기 방식을 확인해야 한다.
+
+| 장소 (id) | 주소 | 소개 근거 | 사진 원본 → 저장 파일 | 카카오 ID | 이미지 속 원작자 표기 |
+| --- | --- | --- | --- | --- | --- |
+| 조양관한정식 강남본점 (`joyanggwan-gangnam`) | 서울 서초구 서초대로74길 29 지1층 비01호 | [소개](https://korean.visitkorea.or.kr/detail/ms_detail.do?cotid=8862cb13-2785-4d4d-b892-eb68ef082547): 강남역 5번 출구 부근, 개별 룸·단체석, 상가건물 자체 주차장 | [원본](https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=27ee53bb-cb25-4113-8d03-5c17dba021b7) → `joyanggwan-gangnam.jpg` | 8086138 | 네이버블로거 지성인 |
+| 해담채 강남점 (`haedamchae-gangnam`) | 서울 강남구 논현로85길 70 역삼823빌딩 지하1층 | [소개](https://korean.visitkorea.or.kr/detail/ms_detail.do?cotid=09663658-aa41-48cb-858f-09b0c7dc75e9): 생선회·정식, 모임용 대형룸과 프라이빗 룸 | [원본](https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=c56d5de7-1184-4af3-9f2e-474011727b8f) → `haedamchae-gangnam.jpg` | 2142723351 | 없음 |
+| 강남목장 (`gangnam-mokjang`) | 서울 강남구 논현로86길 34 1층 | [소개](https://korean.visitkorea.or.kr/detail/ms_detail.do?cotid=4bd4d936-cbd2-40dc-821d-9a7f371d187c): 역삼동 한우구이 전문점, 넓은 공간과 다양한 룸. 사진 속 간판 전화번호가 카카오 등록 번호와 일치 | [원본](https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=04d4f0d9-00cb-4f05-b32f-26c00426f055) → `gangnam-mokjang.jpg` | 8735236 | 네이버블로거 숙기로운생활 |
+| 동달식당 강남본점 (`dongdal-gangnam`) | 서울 서초구 서운로 133 | [소개](https://korean.visitkorea.or.kr/detail/ms_detail.do?cotid=13dbd6a4-71fd-43c7-8ba8-7033fa6c802f): 강남역 6번 출구 부근, 넓은 홀과 개별 룸 | [원본](https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=4d959265-7d3b-4879-8807-5b6df711d676) → `dongdal-gangnam.jpg` | 393701929 | 네이버블로거 유즈쓰 |
+| 강남진해장 (`gangnam-jinhaejang`) | 서울 강남구 테헤란로5길 11 유빌딩 1층 | [소개](https://korean.visitkorea.or.kr/detail/ms_detail.do?cotid=f5990abb-8fc6-47a1-bef3-f70c60b484f8): 강남역 12번 출구 인근, 넓은 홀, 상가건물 자체 주차장 | [원본](https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=aa5c7998-18b8-4f1b-9b26-f9e2b6f7e006) → `gangnam-jinhaejang.jpg` | 1428481536 | 네이버블로거 칠구 |
+| 성수족발 (`seongsu-jokbal`) | 서울 성동구 아차산로7길 7 1층 | [소개](https://korean.visitkorea.or.kr/detail/ms_detail.do?cotid=bc0fe900-cf60-4ff5-8acc-418025c625ea): 서울 3대 족발로 불릴 만큼 유명, 매장이 좁아 포장 권장 | [원본](https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=6e2f1dc7-60ad-4418-b783-9885cf59ec63) → `seongsu-jokbal.jpg` | 8416853 | 네이버블로거 솔솔(jhaansol) |
+| 제스티살룬 성수 (`zesty-saloon-seongsu`) | 서울 성동구 서울숲4길 13 1층 | [소개](https://korean.visitkorea.or.kr/detail/ms_detail.do?cotid=2f0952fc-d7a7-441e-9582-fc716bad37d8): 서울숲역 5번 출구 근처 주택가 2층 햄버거집, 별도 주차장 없음 | [원본](https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=26cf8e45-318e-4521-8ada-8b9f8baf4420) → `zesty-saloon-seongsu.jpg` | 1965582130 | 없음 |
+
+기존 장소 중 카카오 장소 ID를 확인한 곳: 대림창고 1128989913(같은 주소의 "대림창고 다이닝&바"는 별도 업장이라 갤러리카페를 선택), 어니언 성수 145791269, 블루보틀 성수 카페 1492599844, 서울숲 11331488. 전화번호가 이 문서의 출처(VisitSeoul, 한국관광공사 등)와 일치함을 확인했다.
+
+강남역 회식 질의("회식"·"단체" 포함)는 조양관·해담채·강남목장·동달식당·강남진해장 5곳에 연결한다. 도보 시간은 계산하지 않고 "강남역 인근"으로 표시한다. 주차·룸·단체석은 위 한국관광공사 소개 기준이며 실제 현재 운영 여부를 보장하지 않는다. 검색 결과에도 이 안내를 표시한다.
+
 ### 노트북 검색과 커뮤니티 시연
 
 노트북·카공·콘센트·좌석 키워드는 성수의 실제 장소 3곳(대림창고, 어니언 성수, 블루보틀 성수)의 후보 목록에 연결합니다. 시설 조건을 충족한다는 검증이 아니며 결과에 미확인 안내를 표시합니다. 콘센트, 좌석 크기, 노트북 허용 여부는 자료에서 확인되지 않았습니다.
